@@ -1,0 +1,100 @@
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: restart 
+  namespace: demo
+spec:
+  type: Restart
+  databaseRef:
+    name: kafka
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: update-version 
+  namespace: demo
+spec:
+  type: UpdateVersion
+  databaseRef:
+    name: kafka
+  updateVersion:
+    targetVersion: 3.5.1
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: vertical-scaling 
+  namespace: demo
+spec:
+  type: VerticalScaling
+  databaseRef:
+    name: kafka
+  verticalScaling:
+    topology:
+      broker:
+        limits:
+          cpu: 1000m
+          memory: 1250Mi
+        requests:
+          cpu: 502m
+          memory: 1100Mi
+      controller:
+        limits:
+          cpu: 999m
+          memory: 1249Mi
+        requests:
+          cpu: 503m
+          memory: 1100Mi
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: horizontal-scaling-up
+  namespace: demo
+spec:
+  type: HorizontalScaling
+  databaseRef:
+    name: kafka
+  horizontalScaling:
+    topology:
+      broker: 4
+      controller: 2
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: volume-expansion 
+  namespace: demo
+spec:
+  type: VolumeExpansion
+  databaseRef:
+    name: kafka
+  volumeExpansion:
+    topology: 
+      broker: 5Gi
+      controller: 4Gi
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: reconfigure 
+  namespace: demo
+spec:
+  type: Reconfigure
+  databaseRef:
+    name: kafka
+  configuration:
+    configSecret:
+      name: new-custom-config
+---
+apiVersion: ops.kubedb.com/v1alpha1
+kind: KafkaOpsRequest
+metadata:
+  name: rotate-tls
+  namespace: demo
+spec:
+  type: ReconfigureTLS
+  databaseRef:
+    name: kafka
+  tls:
+    rotateCertificates: true

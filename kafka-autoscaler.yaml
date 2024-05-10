@@ -1,0 +1,29 @@
+apiVersion: autoscaling.kubedb.com/v1alpha1
+kind: KafkaAutoscaler
+metadata:
+  name: kafka-autoscaler
+  namespace: demo
+spec:
+  databaseRef:
+    name: kafka
+  compute:
+    broker:
+      trigger: "On"
+      podLifeTimeThreshold: 5m
+      minAllowed:
+        cpu: 1
+        memory: 2Gi
+      maxAllowed:
+        cpu: 2
+        memory: 3Gi
+      controlledResources: ["cpu", "memory"]
+    controller:
+      trigger: "On"
+      podLifeTimeThreshold: 5m
+      minAllowed:
+        cpu: 1
+        memory: 2Gi
+      maxAllowed:
+        cpu: 2
+        memory: 3Gi
+      controlledResources: ["cpu", "memory"]
